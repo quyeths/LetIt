@@ -19,7 +19,7 @@ let Post = class Post {
     }
 };
 __decorate([
-    (0, type_graphql_1.Field)(() => type_graphql_1.Int),
+    (0, type_graphql_1.Field)(),
     (0, core_1.PrimaryKey)(),
     __metadata("design:type", Number)
 ], Post.prototype, "id", void 0);

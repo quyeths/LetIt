@@ -22,7 +22,7 @@ const main = async () => {
       resolvers: [HelloResolver, PostResolver],
       validate: false,
     }),
-    context: () => ({ em: orm.em }),
+    context: () => ({ em: orm.em.fork() }),
   });
 
   await apolloServer.start();

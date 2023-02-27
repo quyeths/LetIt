@@ -21,7 +21,7 @@ const main = async () => {
             resolvers: [hello_1.HelloResolver, posts_1.PostResolver],
             validate: false,
         }),
-        context: () => ({ em: orm.em }),
+        context: () => ({ em: orm.em.fork() }),
     });
     await apolloServer.start();
     apolloServer.applyMiddleware({ app });
