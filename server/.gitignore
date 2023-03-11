@@ -1,4 +1,13 @@
-server/dist
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+.env
+
+tserver/dist
 server/node_modules
 server/.env
 db.sql
+yarn-error.log
