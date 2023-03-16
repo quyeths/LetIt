@@ -15,19 +15,19 @@ import argon2 from "argon2";
 @InputType()
 class UsernamePasswordInput {
   @Field()
-  username: string;
+  username: string = "";
 
   @Field()
-  password: string;
+  password: string = "";
 }
 
 @ObjectType()
 class FieldError {
   @Field()
-  field: string;
+  field: string = "";
 
   @Field()
-  message: string;
+  message: string = "";
 }
 
 @ObjectType()
@@ -87,9 +87,9 @@ export class UserResolver {
     });
     try {
       await em.persistAndFlush(user);
-    } catch (error) {
+    } catch (error: any) {
       // duplicate username
-      if (error.code === "23505") {
+      if (error.detail.includes("already exists")) {
         return {
           errors: [{ field: "username", message: "Username already exists" }],
         };

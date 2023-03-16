@@ -13,6 +13,7 @@ import RedisStore from "connect-redis";
 import session from "express-session";
 import { createClient } from "redis";
 import { MyContext } from "./types";
+import cors from "cors";
 
 const main = async () => {
   const orm = await MikroORM.init(microConfig);
@@ -31,6 +32,13 @@ const main = async () => {
     prefix: "reddit:",
     disableTouch: true,
   });
+
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true,
+    })
+  );
 
   // Initialize session storage.
   app.use(
@@ -57,7 +65,7 @@ const main = async () => {
   });
 
   await apolloServer.start();
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({ app, cors: false });
 
   app.listen(5000, () =>
     console.log("server started on http://localhost:5000")
