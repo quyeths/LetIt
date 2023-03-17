@@ -1,6 +1,10 @@
+import { NavBar } from "../components/NavBar";
 
 const Index = () => (
-  <div>My Nextjs App</div>
-)
+  <>
+    <NavBar />
+    <div>hello world</div>
+  </>
+);
 
-export default Index
+export default Index;
