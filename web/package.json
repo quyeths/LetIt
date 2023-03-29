@@ -12,12 +12,16 @@
     "@chakra-ui/theme-tools": "^2.0.2",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.9.0",
+    "@urql/exchange-graphcache": "^5.2.0",
     "formik": "^2.2.9",
     "framer-motion": "^6.3.0",
     "graphql": "^16.6.0",
+    "isomorphic-unfetch": "^4.0.2",
     "next": "latest",
+    "next-urql": "^4.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-is": "^18.2.0",
     "urql": "^3.0.4"
   },
   "devDependencies": {

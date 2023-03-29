@@ -1,7 +1,6 @@
 require("dotenv").config();
 import "reflect-metadata";
 import { MikroORM } from "@mikro-orm/core";
-import { __prod__ } from "./constants";
 import microConfig from "./mikro-orm.config";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
@@ -14,6 +13,7 @@ import session from "express-session";
 import { createClient } from "redis";
 import { MyContext } from "./types";
 import cors from "cors";
+import { COOKIE_NAME, __prod__ } from "./constants";
 
 const main = async () => {
   const orm = await MikroORM.init(microConfig);
@@ -43,7 +43,7 @@ const main = async () => {
   // Initialize session storage.
   app.use(
     session({
-      name: "qid",
+      name: COOKIE_NAME,
       store: redisStore,
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days

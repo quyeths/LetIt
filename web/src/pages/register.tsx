@@ -1,11 +1,13 @@
-import React from "react";
-import { Form, Formik } from "formik";
 import { Box, Button } from "@chakra-ui/react";
-import { Wrapper } from "../components/Wrapper";
-import { InputField } from "../components/InputField";
-import { useRegisterMutation } from "../generated/graphql";
-import { toErrorMap } from "../utils/toErrorMap";
+import { Form, Formik } from "formik";
+import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
+import React from "react";
+import { InputField } from "../components/InputField";
+import { Wrapper } from "../components/Wrapper";
+import { useRegisterMutation } from "../generated/graphql";
+import { createUrqlClient } from "../utils/createUrqlClient";
+import { toErrorMap } from "../utils/toErrorMap";
 
 interface registerProps {}
 
@@ -18,7 +20,7 @@ export const Register: React.FC<registerProps> = ({}) => {
         initialValues={{ username: "", password: "" }}
         onSubmit={async (values, { setErrors }) => {
           const response = await register(values);
-          if (response?.data.register.errors) {
+          if (response.data?.register.errors) {
             setErrors(toErrorMap(response.data.register.errors));
           } else if (response.data?.register.user) {
             // worked
@@ -56,4 +58,4 @@ export const Register: React.FC<registerProps> = ({}) => {
   );
 };
 
-export default Register;
+export default withUrqlClient(createUrqlClient)(Register);
