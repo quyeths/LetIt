@@ -1,6 +1,6 @@
-import { Arg, Ctx, Int, Mutation, Query, Resolver } from "type-graphql";
-import { Post } from "../entities/Post";
-import { MyContext } from "../types";
+import { Arg, Ctx, Int, Mutation, Query, Resolver } from 'type-graphql';
+import { Post } from '../entities/Post';
+import { MyContext } from '../types';
 
 @Resolver()
 export class PostResolver {
@@ -13,7 +13,7 @@ export class PostResolver {
   // Show post
   @Query(() => Post, { nullable: true })
   post(
-    @Arg("id", () => Int) id: number,
+    @Arg('id', () => Int) id: number,
     @Ctx()
     { em }: MyContext
   ): Promise<Post | null> {
@@ -23,14 +23,14 @@ export class PostResolver {
   // Create post
   @Mutation(() => Post)
   async createPost(
-    @Arg("title", () => String) title: string,
+    @Arg('title', () => String) title: string,
     @Ctx()
     { em }: MyContext
   ): Promise<Post> {
     const post = em.create(Post, {
       title,
-      createdAt: "",
-      updatedAt: "",
+      createdAt: '',
+      updatedAt: ''
     });
     await em.persistAndFlush(post);
     return post;
@@ -39,8 +39,8 @@ export class PostResolver {
   // Update post
   @Mutation(() => Post, { nullable: true })
   async updatePost(
-    @Arg("id", () => Int) id: number,
-    @Arg("title", () => String, { nullable: true }) title: string,
+    @Arg('id', () => Int) id: number,
+    @Arg('title', () => String, { nullable: true }) title: string,
     @Ctx()
     { em }: MyContext
   ): Promise<Post | null> {
@@ -48,7 +48,7 @@ export class PostResolver {
     if (!post) {
       return null;
     }
-    if (typeof title !== "undefined") {
+    if (typeof title !== 'undefined') {
       post.title = title;
       await em.persistAndFlush(post);
     }
@@ -59,12 +59,12 @@ export class PostResolver {
   // Delete post
   @Mutation(() => Boolean)
   async deletePost(
-    @Arg("id", () => Int) id: number,
+    @Arg('id', () => Int) id: number,
     @Ctx()
     { em }: MyContext
   ): Promise<boolean> {
     const res = await em.nativeDelete(Post, { id });
-    console.log("res: ", res);
+    console.log('res: ', res);
 
     return true;
   }

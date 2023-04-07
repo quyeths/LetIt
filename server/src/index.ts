@@ -30,13 +30,13 @@ const main = async () => {
   let redisStore = new RedisStore({
     client: redisClient,
     prefix: "reddit:",
-    disableTouch: true,
+    disableTouch: true
   });
 
   app.use(
     cors({
       origin: ["https://studio.apollographql.com", "http://localhost:3000"],
-      credentials: true,
+      credentials: true
     })
   );
 
@@ -49,19 +49,19 @@ const main = async () => {
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
         httpOnly: true, // only use cookies over HTTP
         sameSite: "lax", // csrf
-        secure: __prod__, // cookie should only be sent over HTTPS
+        secure: __prod__ // cookie should only be sent over HTTPS
       },
       resave: false, // required: force lightweight session keep alive (touch)
       saveUninitialized: false, // recommended: only save session when data exists
-      secret: "keyboard cat",
+      secret: "keyboard cat"
     })
   );
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [HelloResolver, PostResolver, UserResolver],
-      validate: false, // don't validate schema
+      validate: false // don't validate schema
     }),
-    context: ({ req, res }): MyContext => ({ em: orm.em.fork(), req, res }),
+    context: ({ req, res }): MyContext => ({ em: orm.em.fork(), req, res })
   });
 
   await apolloServer.start();
