@@ -8,9 +8,10 @@ import { buildSchema } from "type-graphql";
 import { HelloResolver } from "./resolvers/hello";
 import { PostResolver } from "./resolvers/post";
 import { UserResolver } from "./resolvers/user";
-import RedisStore from "connect-redis";
+// import { createClient } from "redis";
+import Redis from "ioredis";
 import session from "express-session";
-import { createClient } from "redis";
+import RedisStore from "connect-redis";
 import { MyContext } from "./types";
 import cors from "cors";
 import { COOKIE_NAME, __prod__ } from "./constants";
@@ -23,12 +24,12 @@ const main = async () => {
   const app = express();
 
   // Initialize client.
-  let redisClient = createClient();
-  redisClient.connect().catch(console.error);
+  let redis = new Redis();
+  redis.connect().catch(console.error);
 
   // Initialize store.
   let redisStore = new RedisStore({
-    client: redisClient,
+    client: redis,
     prefix: "reddit:",
     disableTouch: true
   });
@@ -61,7 +62,12 @@ const main = async () => {
       resolvers: [HelloResolver, PostResolver, UserResolver],
       validate: false // don't validate schema
     }),
-    context: ({ req, res }): MyContext => ({ em: orm.em.fork(), req, res })
+    context: ({ req, res }): MyContext => ({
+      em: orm.em.fork(),
+      req,
+      res,
+      redis
+    })
   });
 
   await apolloServer.start();
